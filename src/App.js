@@ -1,12 +1,25 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import ComponentButton from './components/Button';
+import { initialRequest } from './actions';
 
-function App() {
-  return (
-    <div>
-      <ComponentButton variant="contained" />
-    </div>
-  );
+class App extends React.Component {
+  componentDidMount() {
+    const { initialRequest } = this.props;
+    initialRequest();
+  }
+
+  render() {
+    return (
+      <div>
+        <ComponentButton variant="contained" />
+      </div>
+    )
+  }
 }
 
-export default App;
+const mapDispatchToProps = {
+  initialRequest,
+}
+
+export default connect(null, mapDispatchToProps)(App);
