@@ -1,9 +1,25 @@
+import {
+  INITIAL_LOADING,
+  SET_HOME_MENU
+} from '../actions';
+
 const initialState = {
-  initial: false
+  initialLoading: false,
+  menu: [],
 }
 
 const initReducer = (state = initialState, { type, data }) => {
   switch(type) {
+    case INITIAL_LOADING:
+      return {
+        ...state,
+        initialLoading: data,
+      }
+    case SET_HOME_MENU:
+      return {
+        ...state,
+        menu: data,
+      }
     default:
       return state;
   }

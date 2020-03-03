@@ -1,0 +1,22 @@
+.ecto-container .full-height {
+  height: 100vh;
+}
+
+.ecto-container .center-aligned {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ecto-container .drawer {
+  width: 240px;
+  flex-shrink: 0;
+}
+
+.ecto-container .MuiDrawer-paper {
+  width: 240px;
+}
+
+.ecto-container .toolbar {
+  height: 64px;
+}
