@@ -1,3 +1,16 @@
+
+body > #root > div {
+  height: 100vh;
+}
+
+body {
+  margin: 0;
+}
+
+.ecto-container {
+  font-family: lato;
+}
+
 .ecto-container .full-height {
   height: 100vh;
 }
@@ -19,4 +32,41 @@
 
 .ecto-container .toolbar {
   height: 64px;
+}
+
+.ecto-container .list-container {
+  padding-left: 280px;
+  padding-top: 64px;
+  padding-right: 40px;
+  background-color: #f4f8f9;
+  height: 100%;
+}
+
+.list-container .list-item {
+  height: 60px;
+  background-color: #ffffff;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.avatar {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 24px;
+  font-family: cursive;
+}
+
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

@@ -1,6 +1,14 @@
 import { call, put } from 'redux-saga/effects';
-import { fetchInitAPI } from '../api';
-import { initialLoading, setHomeMenu } from '../actions';
+import {
+  fetchInitAPI,
+  fetchTypeAPI
+} from '../api';
+import {
+  initialLoading,
+  setHomeMenu,
+  setTotalTypeCount,
+  setTypeData,
+} from '../actions';
 import { IconMap } from '../utils/IconMap';
 
 export function* firstSaga() {
@@ -20,5 +28,16 @@ export function* firstSaga() {
     }
   } catch(e) {
     console.log('Error in firstSaga', e);
+  }
+}
+
+export function* fetchTypeRelatedDataSaga({ data }) {
+  try {
+    const { data: resData } = yield call(fetchTypeAPI, data);
+    console.log('resData', resData);
+    yield put(setTotalTypeCount(resData.count))
+    yield put(setTypeData(resData.results))
+  } catch (e) {
+    console.log('Error in fetchTypeRelatedDataSaga', e);
   }
 }
