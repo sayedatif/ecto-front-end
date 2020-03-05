@@ -1,25 +1,45 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
-import { DrawerMenu } from '../components';
-import { fetchTypeRelatedData } from '../actions';
-import { getRandomColor } from '../utils/getRandomColor';
+import { DrawerMenu, ListContainer, ComponentCircularProgress } from '../components';
+import { fetchTypeRelatedData, setSelectedPage } from '../actions';
 
 class TypeContainer extends React.Component {
   componentDidMount() {
     const { fetchTypeRelatedData, match, menu } = this.props;
     if (menu.length) {
-      fetchTypeRelatedData(match.params.type);
+      fetchTypeRelatedData({ type: match.params.type });
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { match, menu, fetchTypeRelatedData } = this.props;
+    const { match: prevMatch } = prevProps;
+    if (prevMatch.params.type !== match.params.type && menu.length) {
+      fetchTypeRelatedData({ type: match.params.type });
     }
   }
 
   handleListItemClick = val => () => {
-    const { history } = this.props
+    const { history, setSelectedPage } = this.props
+    setSelectedPage(1);
     history.push(`/${val}`)
   }
 
+  handlePagination = (e, num) => {
+    const { match, fetchTypeRelatedData } = this.props;
+    fetchTypeRelatedData({ type: match.params.type, page: num });
+  }
+
   render() {
-    const { menu, match, typeData } = this.props;
+    const {
+      menu,
+      match,
+      typeData,
+      showListLoading,
+      totalCount,
+      selectedPage
+    } = this.props;
     if (!menu.length) {
       return <Redirect to="/" />
     }
@@ -30,30 +50,41 @@ class TypeContainer extends React.Component {
           handleListItemClick={this.handleListItemClick}
           selectedKey={match.params.type}
         />
-        <div className="list-container">
-          {typeData.length && typeData.map((item, index) => (
-            <div key={index} className="list-item">
-              <div className="avatar" style={{ backgroundColor: getRandomColor() }}>{item.name.charAt(0).toUpperCase()}</div>
-              <div className="ellipsis" style={{ maxWidth: '20%', width: '20%' }}>{item.name}</div>
-              <div className="ellipsis" style={{ maxWidth: '15%', textTransform: 'capitalize' }}>{item.gender}</div>
+        {typeData.length > 0 && (
+          <React.Fragment>
+            <div className="list-container">
+              {showListLoading && <div className="flex-center"><ComponentCircularProgress /></div>}
+              {!showListLoading && (
+                <ListContainer
+                  selectedKey={match.params.type}
+                  typeData={typeData}
+                  totalPage={Math.ceil(totalCount / 10)}
+                  page={selectedPage}
+                  handlePagination={this.handlePagination}
+                />
+              )}
             </div>
-          ))}
-        </div>
+          </React.Fragment>
+        )}
       </div>
     )
   }
 }
 
 const mapStateToProps = ({ init }) => {
-  const { menu, typeData } = init;
+  const { menu, typeData, showListLoading, totalCount, selectedPage } = init;
   return {
     menu,
-    typeData
+    typeData,
+    showListLoading,
+    totalCount,
+    selectedPage,
   }
 }
 
 const mapDispatchToProps = {
-  fetchTypeRelatedData
+  fetchTypeRelatedData,
+  setSelectedPage,
 }
 
 export default withRouter(

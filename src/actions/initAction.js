@@ -5,6 +5,8 @@ export const SET_HOME_MENU = 'SET_HOME_MENU';
 export const FETCH_TYPE_RELATED_DATA = 'FETCH_TYPE_RELATED_DATA';
 export const SET_TOTAL_TYPE_COUNT = 'SET_TOTAL_TYPE_COUNT';
 export const SET_TYPE_DATA = 'SET_TYPE_DATA';
+export const SET_LIST_LOADING = 'SET_LIST_LOADING';
+export const SET_SELECTED_PAGE = 'SET_SELECTED_PAGE';
 
 //action creators
 export const initialRequest = () => ({
@@ -28,5 +30,13 @@ export const setTotalTypeCount = data => ({
 });
 export const setTypeData = data => ({
   type: SET_TYPE_DATA,
+  data,
+});
+export const setShowListLoading = data => ({
+  type: SET_LIST_LOADING,
+  data,
+});
+export const setSelectedPage = data => ({
+  type: SET_SELECTED_PAGE,
   data,
 })

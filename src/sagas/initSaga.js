@@ -8,8 +8,10 @@ import {
   setHomeMenu,
   setTotalTypeCount,
   setTypeData,
+  setShowListLoading,
+  setSelectedPage,
 } from '../actions';
-import { IconMap } from '../utils/IconMap';
+import { IconMap } from '../utils';
 
 export function* firstSaga() {
   try {
@@ -33,10 +35,14 @@ export function* firstSaga() {
 
 export function* fetchTypeRelatedDataSaga({ data }) {
   try {
-    const { data: resData } = yield call(fetchTypeAPI, data);
-    console.log('resData', resData);
-    yield put(setTotalTypeCount(resData.count))
-    yield put(setTypeData(resData.results))
+    yield put(setShowListLoading(true));
+    const { data: resData } = yield call(fetchTypeAPI, data.type, { page: data.page });
+    yield put(setTotalTypeCount(resData.count));
+    yield put(setTypeData(resData.results));
+    if (data.page) {
+      yield put(setSelectedPage(data.page))
+    }
+    yield put(setShowListLoading(false));
   } catch (e) {
     console.log('Error in fetchTypeRelatedDataSaga', e);
   }

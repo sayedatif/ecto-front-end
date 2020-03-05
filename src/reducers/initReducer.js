@@ -3,6 +3,8 @@ import {
   SET_HOME_MENU,
   SET_TOTAL_TYPE_COUNT,
   SET_TYPE_DATA,
+  SET_LIST_LOADING,
+  SET_SELECTED_PAGE,
 } from '../actions';
 
 const initialState = {
@@ -10,6 +12,8 @@ const initialState = {
   menu: [],
   totalCount: 0,
   typeData: [],
+  showListLoading: false,
+  selectedPage: 1,
 }
 
 const initReducer = (state = initialState, { type, data }) => {
@@ -33,6 +37,16 @@ const initReducer = (state = initialState, { type, data }) => {
       return {
         ...state,
         typeData: data
+      }
+    case SET_LIST_LOADING:
+      return {
+        ...state,
+        showListLoading: data,
+      }
+    case SET_SELECTED_PAGE:
+      return {
+        ...state,
+        selectedPage: data,
       }
     default:
       return state;
