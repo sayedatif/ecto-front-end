@@ -1,6 +1,6 @@
-
-body > #root > div {
+html, body, #root > div {
   height: 100vh;
+  overflow-y: hidden;
 }
 
 body {
@@ -36,7 +36,7 @@ body {
 
 .ecto-container .list-container {
   padding-left: 280px;
-  padding-top: 64px;
+  padding-top: 84px;
   padding-right: 40px;
   background-color: #f4f8f9;
   height: 100%;
@@ -46,6 +46,7 @@ body {
   /* height: 50px; */
   background-color: #ffffff;
   border-radius: 4px;
+  border: 1px solid #98a6ab;
   margin-bottom: 10px;
   display: flex;
   align-items: center;
@@ -86,4 +87,16 @@ body {
 .flex-end {
   display: flex;
   justify-content: flex-end;
+}
+
+.ecto-container .header {
+  background-color: #ffffff;
+  height: 64px;
+  position: fixed;
+  width: 100%;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.justify-center {
+  justify-content: center;
 }

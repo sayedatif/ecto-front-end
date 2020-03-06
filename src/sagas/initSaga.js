@@ -1,4 +1,4 @@
-import { call, put } from 'redux-saga/effects';
+import { call, put, select } from 'redux-saga/effects';
 import {
   fetchInitAPI,
   fetchTypeAPI
@@ -10,15 +10,22 @@ import {
   setTypeData,
   setShowListLoading,
   setSelectedPage,
+  searchTextSelector,
 } from '../actions';
 import { IconMap } from '../utils';
 
 export function* firstSaga() {
   try {
     yield put(initialLoading(true));
-    const { data } = yield call(fetchInitAPI);
-    if (data) {
-      const menu = Object.keys(data).map(item => {
+    let types = sessionStorage.getItem('types');
+    if (!types) {
+      const { data } = yield call(fetchInitAPI);
+      types = JSON.stringify(data);
+      sessionStorage.setItem('types', types);
+    }
+    const parsedTypes = JSON.parse(types);
+    if (parsedTypes) {
+      const menu = Object.keys(parsedTypes).map(item => {
         return {
           label: `${item.charAt(0).toUpperCase()}${item.slice(1)}`,
           component: IconMap[item] ? IconMap[item] : IconMap['default'],
@@ -35,8 +42,15 @@ export function* firstSaga() {
 
 export function* fetchTypeRelatedDataSaga({ data }) {
   try {
+    const search = yield select(searchTextSelector)
     yield put(setShowListLoading(true));
-    const { data: resData } = yield call(fetchTypeAPI, data.type, { page: data.page });
+    const query = {
+      page: data.page
+    }
+    if (search) {
+      query.search = search;
+    }
+    const { data: resData } = yield call(fetchTypeAPI, data.type, query);
     yield put(setTotalTypeCount(resData.count));
     yield put(setTypeData(resData.results));
     if (data.page) {

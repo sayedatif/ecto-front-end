@@ -2,7 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
 import { DrawerMenu, ListContainer, ComponentCircularProgress } from '../components';
-import { fetchTypeRelatedData, setSelectedPage } from '../actions';
+import {
+  fetchTypeRelatedData,
+  setSelectedPage,
+  setSearchText
+} from '../actions';
+import Header from './Header';
 
 class TypeContainer extends React.Component {
   componentDidMount() {
@@ -21,8 +26,9 @@ class TypeContainer extends React.Component {
   }
 
   handleListItemClick = val => () => {
-    const { history, setSelectedPage } = this.props
+    const { history, setSelectedPage, setSearchText } = this.props
     setSelectedPage(1);
+    setSearchText('');
     history.push(`/${val}`)
   }
 
@@ -45,27 +51,28 @@ class TypeContainer extends React.Component {
     }
     return (
       <div className="ecto-container">
+        <Header />
         <DrawerMenu
           menu={menu}
           handleListItemClick={this.handleListItemClick}
           selectedKey={match.params.type}
         />
-        {typeData.length > 0 && (
-          <React.Fragment>
-            <div className="list-container">
-              {showListLoading && <div className="flex-center"><ComponentCircularProgress /></div>}
-              {!showListLoading && (
-                <ListContainer
-                  selectedKey={match.params.type}
-                  typeData={typeData}
-                  totalPage={Math.ceil(totalCount / 10)}
-                  page={selectedPage}
-                  handlePagination={this.handlePagination}
-                />
-              )}
+        <div className="list-container">
+          {showListLoading && (
+            <div className="flex-center">
+              <ComponentCircularProgress />
             </div>
-          </React.Fragment>
-        )}
+          )}
+          {!showListLoading && (
+            <ListContainer
+              selectedKey={match.params.type}
+              typeData={typeData}
+              totalPage={Math.ceil(totalCount / 10)}
+              page={selectedPage}
+              handlePagination={this.handlePagination}
+            />
+          )}
+          </div>
       </div>
     )
   }
@@ -85,6 +92,7 @@ const mapStateToProps = ({ init }) => {
 const mapDispatchToProps = {
   fetchTypeRelatedData,
   setSelectedPage,
+  setSearchText,
 }
 
 export default withRouter(

@@ -34,7 +34,7 @@ function DrawerMenu({
             onClick={handleListItemClick(item.key)}
           >
             {item.component && (
-              <ListItemIcon><item.component /></ListItemIcon>
+              <ListItemIcon><item.component color="primary" /></ListItemIcon>
             )}
             <ListItemText primary={item.label} />
           </ListItem>

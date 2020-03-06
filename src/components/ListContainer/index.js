@@ -42,15 +42,21 @@ function ListContainer({
       <div className="list-item">
         {renderItems(selectedKey, 'label')}
       </div>
-      {typeData.map((item, index) => (
+      {typeData.length > 0 && typeData.map((item, index) => (
         <div className="list-item" key={index}>
           {renderItems(selectedKey, 'key', item)}
         </div>
       ))}
+      {typeData.length === 0 && (
+        <div className="list-item justify-center">
+          No Data
+        </div>
+      )}
       {totalPage > 1 && (
         <div className="flex-end">
           <Pagination
             count={totalPage}
+            color="primary"
             variant="outlined"
             shape="rounded"
             page={page}

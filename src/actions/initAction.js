@@ -7,6 +7,7 @@ export const SET_TOTAL_TYPE_COUNT = 'SET_TOTAL_TYPE_COUNT';
 export const SET_TYPE_DATA = 'SET_TYPE_DATA';
 export const SET_LIST_LOADING = 'SET_LIST_LOADING';
 export const SET_SELECTED_PAGE = 'SET_SELECTED_PAGE';
+export const SET_SEARCH_TEXT = 'SET_SEARCH_TEXT';
 
 //action creators
 export const initialRequest = () => ({
@@ -39,4 +40,11 @@ export const setShowListLoading = data => ({
 export const setSelectedPage = data => ({
   type: SET_SELECTED_PAGE,
   data,
+});
+export const setSearchText = data => ({
+  type: SET_SEARCH_TEXT,
+  data,
 })
+
+// selectors
+export const searchTextSelector = ({ init }) => init.searchText;

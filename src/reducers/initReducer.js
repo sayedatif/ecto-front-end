@@ -5,6 +5,7 @@ import {
   SET_TYPE_DATA,
   SET_LIST_LOADING,
   SET_SELECTED_PAGE,
+  SET_SEARCH_TEXT,
 } from '../actions';
 
 const initialState = {
@@ -14,6 +15,7 @@ const initialState = {
   typeData: [],
   showListLoading: false,
   selectedPage: 1,
+  searchText: '',
 }
 
 const initReducer = (state = initialState, { type, data }) => {
@@ -47,6 +49,11 @@ const initReducer = (state = initialState, { type, data }) => {
       return {
         ...state,
         selectedPage: data,
+      }
+    case SET_SEARCH_TEXT:
+      return {
+        ...state,
+        searchText: data,
       }
     default:
       return state;
