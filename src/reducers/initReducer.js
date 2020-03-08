@@ -6,6 +6,8 @@ import {
   SET_LIST_LOADING,
   SET_SELECTED_PAGE,
   SET_SEARCH_TEXT,
+  SET_SORT_ORDER,
+  SET_SORT_KEY,
 } from '../actions';
 
 const initialState = {
@@ -16,6 +18,8 @@ const initialState = {
   showListLoading: false,
   selectedPage: 1,
   searchText: '',
+  sortOrder: 'asc',
+  sortKey: '',
 }
 
 const initReducer = (state = initialState, { type, data }) => {
@@ -54,6 +58,16 @@ const initReducer = (state = initialState, { type, data }) => {
       return {
         ...state,
         searchText: data,
+      }
+    case SET_SORT_ORDER:
+      return {
+        ...state,
+        sortOrder: data,
+      }
+    case SET_SORT_KEY:
+      return {
+        ...state,
+        sortKey: data,
       }
     default:
       return state;

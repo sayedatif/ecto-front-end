@@ -5,9 +5,13 @@ import { DrawerMenu, ListContainer, ComponentCircularProgress } from '../compone
 import {
   fetchTypeRelatedData,
   setSelectedPage,
-  setSearchText
+  setSearchText,
+  setTypeData,
+  setSortOrder,
+  setSortKey,
 } from '../actions';
 import Header from './Header';
+import { sortedArrayByKey } from '../utils';
 
 class TypeContainer extends React.Component {
   componentDidMount() {
@@ -37,6 +41,28 @@ class TypeContainer extends React.Component {
     fetchTypeRelatedData({ type: match.params.type, page: num });
   }
 
+  handleHeaderClick = (item, key) => () => {
+    const {
+      typeData,
+      setTypeData,
+      sortOrder,
+      setSortOrder,
+      setSortKey
+    } = this.props;
+    if (key === 'label' && item.label.indexOf('#') === -1) {
+      let sortOrderToUpdate = 'asc';
+      if (sortOrder === 'desc') {
+        sortOrderToUpdate = 'asc'
+      } else if (sortOrder === 'asc') {
+        sortOrderToUpdate = 'desc';
+      }
+      const sortedData = sortedArrayByKey(typeData, item.key, sortOrderToUpdate);
+      setSortOrder(sortOrderToUpdate)
+      setSortKey(item.key)
+      setTypeData(sortedData);
+    }
+  }
+
   render() {
     const {
       menu,
@@ -44,7 +70,9 @@ class TypeContainer extends React.Component {
       typeData,
       showListLoading,
       totalCount,
-      selectedPage
+      selectedPage,
+      sortOrder,
+      sortKey,
     } = this.props;
     if (!menu.length) {
       return <Redirect to="/" />
@@ -70,6 +98,9 @@ class TypeContainer extends React.Component {
               totalPage={Math.ceil(totalCount / 10)}
               page={selectedPage}
               handlePagination={this.handlePagination}
+              handleHeaderClick={this.handleHeaderClick}
+              sortOrder={sortOrder}
+              sortKey={sortKey}
             />
           )}
           </div>
@@ -79,13 +110,23 @@ class TypeContainer extends React.Component {
 }
 
 const mapStateToProps = ({ init }) => {
-  const { menu, typeData, showListLoading, totalCount, selectedPage } = init;
+  const {
+    menu,
+    typeData,
+    showListLoading,
+    totalCount,
+    selectedPage,
+    sortOrder,
+    sortKey,
+  } = init;
   return {
     menu,
     typeData,
     showListLoading,
     totalCount,
     selectedPage,
+    sortOrder,
+    sortKey
   }
 }
 
@@ -93,6 +134,9 @@ const mapDispatchToProps = {
   fetchTypeRelatedData,
   setSelectedPage,
   setSearchText,
+  setTypeData,
+  setSortOrder,
+  setSortKey,
 }
 
 export default withRouter(

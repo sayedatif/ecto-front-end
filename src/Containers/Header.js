@@ -13,8 +13,8 @@ class Header extends React.Component {
   }
 
   handleEnter = e => {
-    const { match, fetchTypeRelatedData } = this.props;
-    if (e.keyCode === 13) {
+    const { match, fetchTypeRelatedData, searchText } = this.props;
+    if (e.keyCode === 13 && searchText.trim().length > 0) {
       fetchTypeRelatedData({ type: match.params.type });
     }
   }

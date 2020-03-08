@@ -48,7 +48,7 @@ export function* fetchTypeRelatedDataSaga({ data }) {
       page: data.page
     }
     if (search) {
-      query.search = search;
+      query.search = search.trim();
     }
     const { data: resData } = yield call(fetchTypeAPI, data.type, query);
     yield put(setTotalTypeCount(resData.count));

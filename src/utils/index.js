@@ -65,9 +65,25 @@ const ColumnMap = {
     { key: 'crew', label: 'Crew' },
     { key: 'passengers', label: 'Passengers' },
   ],
+};
+
+const sortedArrayByKey = (arr, key, order) => {
+  return arr.sort((a, b) => {
+    let sortOrder = 1;
+    if (order === 'desc') {
+      sortOrder = -1;
+    }
+    if (a[key] > b[key]) {
+      return 1 * sortOrder;
+    } else if (a[key] < b[key]) {
+      return -1 * sortOrder;
+    }
+    return 0 * sortOrder
+  })
 }
 
 export {
   IconMap,
   ColumnMap,
+  sortedArrayByKey,
 }

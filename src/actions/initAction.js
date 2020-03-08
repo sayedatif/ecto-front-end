@@ -8,6 +8,8 @@ export const SET_TYPE_DATA = 'SET_TYPE_DATA';
 export const SET_LIST_LOADING = 'SET_LIST_LOADING';
 export const SET_SELECTED_PAGE = 'SET_SELECTED_PAGE';
 export const SET_SEARCH_TEXT = 'SET_SEARCH_TEXT';
+export const SET_SORT_ORDER = 'SET_SORT_ORDER';
+export const SET_SORT_KEY = 'SET_SORT_KEY';
 
 //action creators
 export const initialRequest = () => ({
@@ -43,6 +45,14 @@ export const setSelectedPage = data => ({
 });
 export const setSearchText = data => ({
   type: SET_SEARCH_TEXT,
+  data,
+});
+export const setSortOrder = data => ({
+  type: SET_SORT_ORDER,
+  data,
+});
+export const setSortKey = data => ({
+  type: SET_SORT_KEY,
   data,
 })
 
