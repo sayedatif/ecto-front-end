@@ -1,9 +1,9 @@
 import React from 'react';
 import { ColumnMap } from '../../utils';
-import { getRandomColor } from '../../utils/getRandomColor';
 import Pagination from '@material-ui/lab/Pagination';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import ComponentAvatar from '../Avatar';
 
 class ListContainer extends React.Component {
   getValue = (obj, item, key) => {
@@ -35,9 +35,7 @@ class ListContainer extends React.Component {
           && item.showAvatar
           && this.getValue(obj, item, key)
           && (
-            <span className="avatar" style={{ backgroundColor: getRandomColor() }}>
-              {this.getValue(obj, item, key).charAt(0).toUpperCase()}
-            </span>
+            <ComponentAvatar character={this.getValue(obj, item, key)} />
           )}
         {obj ? this.getValue(obj, item, key) : item[key]}
         {key === 'label' && sortKey === item.key && this.renderSortArrows()}
