@@ -99,3 +99,7 @@ body {
 .justify-center {
   justify-content: center;
 }
+
+.icon-font {
+  font-size: 18px !important;
+}

@@ -1,47 +1,9 @@
 import React from 'react';
-import { ColumnMap } from '../../utils';
 import Pagination from '@material-ui/lab/Pagination';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import ComponentAvatar from '../Avatar';
+import ItemsRenderer from './ItemsRenderer';
+
 
 class ListContainer extends React.Component {
-  getValue = (obj, item, key) => {
-    if (Array.isArray(obj[item[key]])) {
-      return obj[item[key]].length
-    }
-    return obj[item[key]]
-  }
-
-  renderSortArrows = () => {
-    const { sortOrder } = this.props;
-    if (sortOrder === 'desc') {
-      return <ArrowDownwardIcon style={{ fontSize: '18px' }} />
-    } else if (sortOrder === 'asc') {
-      return <ArrowUpwardIcon style={{ fontSize: '18px' }} />
-    }
-  }
-
-  renderItems = (selectedKey, key, obj = null) => {
-    const { handleHeaderClick, sortKey } = this.props;
-    return ColumnMap[selectedKey].map((item, index) => (
-      <span
-        key={index}
-        style={{ width: '20%', display: 'flex', alignItems: 'center' }}
-        className={key === 'label' ? 'header-font' : 'row-font'}
-        onClick={handleHeaderClick(item, key)}
-      >
-        {key !== 'label'
-          && item.showAvatar
-          && this.getValue(obj, item, key)
-          && (
-            <ComponentAvatar character={this.getValue(obj, item, key)} />
-          )}
-        {obj ? this.getValue(obj, item, key) : item[key]}
-        {key === 'label' && sortKey === item.key && this.renderSortArrows()}
-      </span>
-    ))
-  }
 
   render() {
     const {
@@ -49,16 +11,31 @@ class ListContainer extends React.Component {
       typeData,
       handlePagination,
       totalPage,
-      page
+      page,
+      sortKey,
+      handleHeaderClick,
+      sortOrder,
     } = this.props;
     return (
       <React.Fragment>
         <div className="list-item">
-          {this.renderItems(selectedKey, 'label')}
+          <ItemsRenderer 
+            selectedKey={selectedKey}
+            objKey="label"
+            sortKey={sortKey}
+            sortOrder={sortOrder}
+            handleHeaderClick={handleHeaderClick}
+          />
         </div>
         {typeData.length > 0 && typeData.map((item, index) => (
           <div className="list-item" key={index}>
-            {this.renderItems(selectedKey, 'key', item)}
+            <ItemsRenderer 
+              selectedKey={selectedKey}
+              objKey="key"
+              sortKey={sortKey}
+              obj={item}
+              handleHeaderClick={handleHeaderClick}
+            />
           </div>
         ))}
         {typeData.length === 0 && (

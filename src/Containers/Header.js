@@ -4,7 +4,12 @@ import { withRouter } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import SearchIcon from '@material-ui/icons/Search';
-import { setSearchText, fetchTypeRelatedData } from '../actions';
+import {
+  setSearchText,
+  fetchTypeRelatedData,
+  setSortKey,
+  setSortOrder
+} from '../actions';
 
 class Header extends React.Component {
   handleSearchChange = e => {
@@ -13,8 +18,10 @@ class Header extends React.Component {
   }
 
   handleEnter = e => {
-    const { match, fetchTypeRelatedData, searchText } = this.props;
-    if (e.keyCode === 13 && searchText.trim().length > 0) {
+    const { match, fetchTypeRelatedData, setSortKey, setSortOrder } = this.props;
+    if (e.keyCode === 13) {
+      setSortOrder('asc');
+      setSortKey('');
       fetchTypeRelatedData({ type: match.params.type });
     }
   }
@@ -53,6 +60,8 @@ const mapStateToProps = ({ init }) => {
 const mapDispatchToProps = {
   setSearchText,
   fetchTypeRelatedData,
+  setSortKey,
+  setSortOrder,
 };
 
 export default withRouter(

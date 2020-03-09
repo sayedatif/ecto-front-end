@@ -30,9 +30,17 @@ class TypeContainer extends React.Component {
   }
 
   handleListItemClick = val => () => {
-    const { history, setSelectedPage, setSearchText } = this.props
+    const {
+      history,
+      setSelectedPage,
+      setSearchText,
+      setSortOrder,
+      setSortKey
+    } = this.props
     setSelectedPage(1);
     setSearchText('');
+    setSortOrder('asc');
+    setSortKey('');
     history.push(`/${val}`)
   }
 
@@ -57,8 +65,8 @@ class TypeContainer extends React.Component {
         sortOrderToUpdate = 'desc';
       }
       const sortedData = sortedArrayByKey(typeData, item.key, sortOrderToUpdate);
-      setSortOrder(sortOrderToUpdate)
-      setSortKey(item.key)
+      setSortOrder(sortOrderToUpdate);
+      setSortKey(item.key);
       setTypeData(sortedData);
     }
   }
